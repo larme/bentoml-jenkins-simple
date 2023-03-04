@@ -33,13 +33,29 @@ pipeline {
 	}
 	stage("Build") {
 	    steps {
-		echo "build bento and containerize it"
+		echo "build bento"
 		script {
 		    sh """
                     . .env/bin/activate
-                    bentoml build && bentoml containerize iris_classifier:latest
+                    bentoml build
                     """
 		}
+	    }
+	}
+	stage("Containerize") {
+	    steps {
+		echo "containerize the bento"
+		script {
+		    sh """
+                    . .env/bin/activate
+                    bentoml containerize iris_classifier:latest
+                    """
+		}
+	    }
+	}
+	stage("Push") {
+	    steps {
+		echo "push the docker image to registry"
 	    }
 	}
     }
