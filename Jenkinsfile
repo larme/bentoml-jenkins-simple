@@ -12,8 +12,8 @@ pipeline {
 		echo "install dependencies"
 		script {
 		    sh """
-                    python3 -m venv /tmp/.env
-                    . /tmp/.env/bin/activate
+                    python3 -m venv .env
+                    . .env/bin/activate
                     pip install -U pip
                     pip install -Ur requirements.txt
                     """
@@ -25,7 +25,7 @@ pipeline {
 		echo "train model"
 		script {
 		    sh """
-                    . /tmp/.env/bin/activate
+                    . .env/bin/activate
                     python3 train.py
                     """
 		}
@@ -36,7 +36,7 @@ pipeline {
 		echo "build bento"
 		script {
 		    sh """
-                    . /tmp/.env/bin/activate
+                    . .env/bin/activate
                     bentoml build
                     """
 		}
@@ -47,7 +47,7 @@ pipeline {
 		echo "containerize the bento"
 		script {
 		    sh """
-                    . /tmp/.env/bin/activate
+                    . .env/bin/activate
                     bentoml containerize iris_classifier:latest
                     """
 		}
